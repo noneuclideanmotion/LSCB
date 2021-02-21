@@ -2,16 +2,12 @@
 #include "sleepy_discord/sleepy_discord.h"
 #include "utility/html_request.h"
 #include <algorithm>
+#include "command/command.h"
 
 #include "utility/color.h"
 
 namespace lscb
 {
-	enum class command
-	{
-		repeat,
-		hello
-	};
 
 	std::string ReplaceAll(std::string str, const std::string& from, const std::string& to) {
 		size_t start_pos = 0;
@@ -92,6 +88,16 @@ public:
 			sendMessage(message.channelID, "", embed);
 		}
 		else if (message.startsWith(lscb::client_prefix + "avatar")) {
+			SleepyDiscord::Embed embed;
+			embed.color = lscb::utility::color::aqua;
+			embed.url = lscb::utility::get_image_url::avatar(message.author);
+			embed.title = "Your Avatar";
+			embed.image = lscb::utility::make_embed::image(lscb::utility::get_image_url::avatar(message.author, 8),
+				std::make_pair<uint16_t, uint16_t>(1000, 1000));
+			sendMessage(message.channelID, "", embed);
+		}
+		else if (message.startsWith(lscb::client_prefix + "server")) {
+			SleepyDiscord::Server a;
 			SleepyDiscord::Embed embed;
 			embed.color = lscb::utility::color::aqua;
 			embed.url = lscb::utility::get_image_url::avatar(message.author);

@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 3.6)
 project(lscb)
-add_executable(lscb "src/main.cpp" "src/utility/utility.h" "src/utility/color.h")
+add_executable(lscb "src/main.cpp" "src/utility/utility.h" "src/utility/color.h" "src/command/command.h")
 add_subdirectory(deps/sleepy-discord)
 target_link_libraries(lscb sleepy-discord)
