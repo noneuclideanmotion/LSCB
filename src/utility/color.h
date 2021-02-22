@@ -199,8 +199,7 @@ namespace lscb {
 		/// </summary>
 		/// <param name="hex">Hex String</param>
 		/// <returns>Colour in a discord API format</returns>
-		int32_t make_color(const std::string& hex)
-		{
+		int32_t make_color(const std::string& hex) {
 			return std::stoi(hex, nullptr, 16);	
 		}
 
@@ -211,13 +210,28 @@ namespace lscb {
 		/// <param name="g">Green Value</param>
 		/// <param name="b">Blue Value</param>
 		/// <returns>Colour in a discord API format</returns>
-		int32_t make_color(const int r, const int g, const int b)
-		{
-			int32_t hex =  static_cast<int32_t>((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
+		int32_t make_color(const int r, const int g, const int b) {
+			int32_t hex =  static_cast<int32_t>((r & 0xff) << 16) | ((g & 0xff) << 8) | (b & 0xff);
 			// discord does not allow 0xffffff
 			if (hex == 0xffffff) return 0xfffffe;
 			return hex;
 		}
+		
+		/// <summary>
+		/// Takes an input of an RGB tuple and returns an integer (for compile time usage).
+		/// </summary>
+		/// <param name="r">Red value</param>
+		/// <param name="g">Green Value</param>
+		/// <param name="b">Blue Value</param>
+		/// <returns>Colour in a discord API format</returns>
+		template<const int r, const int g, const int b>
+		constexpr int32_t make_color() {
+			int32_t hex = static_cast<int32_t>((r & 0xff) << 16) | ((g & 0xff) << 8) | (b & 0xff);
+			// discord does not allow 0xffffff
+			if (hex == 0xffffff) return 0xfffffe;
+			return hex;
+		}
+		
 		
 	}
 }
