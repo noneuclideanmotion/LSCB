@@ -211,12 +211,12 @@ namespace lscb {
 		/// <param name="g">Green Value</param>
 		/// <param name="b">Blue Value</param>
 		/// <returns>Colour in a discord API format</returns>
-		int32_t make_color(const int& r, const int& g, const int& b)
+		int32_t make_color(const int r, const int g, const int b)
 		{
-			//discord API will not accept 0xffffff as a valid hex code.
-			if (r * 256 * 256 + g * 256 + b == 0xfffff)
-				return 0xffffe;
-			return static_cast<int32_t>(r*256*256+g*256+b);
+			int32_t hex =  static_cast<int32_t>((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
+			// discord does not allow 0xffffff
+			if (hex == 0xffffff) return 0xfffffe;
+			return hex;
 		}
 		
 	}
